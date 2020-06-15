@@ -51,8 +51,8 @@ CC-BY-SA 4.0, see attached License.md
 
 
 ## Screenshots
-![Example screenshot](./img/screenshot.png)
-TBA
+![Example of the Trapezoidal distribution](https://github.com/sdam-au/modelling_temporal_uncertainty/blob/master/screenshots/Trapezoidal_distribution.png)
+
 
 
 
