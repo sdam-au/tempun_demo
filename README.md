@@ -1,17 +1,16 @@
-# Meaningful title for the repository
+# Modelling Temporal Uncertainty in Historical Datasets
 * ANALYSIS
 
+![Project_status](https://img.shields.io/badge/status-in__progress-brightgreen "Project status logo")
 ---
 
 ## Purpose
-This repo collects all scripts useful for dealing with temporal uncertainty in historical&archaeological datasets.
+This repo collects all scripts and models useful for dealing with temporal uncertainty in historical & archaeological datasets.
 
 ---
 ## Authors
 * Vojtěch Kaše [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)]([0000-0002-6601-1605](https://www.google.com/url?q=http://orcid.org/0000-0002-6601-1605&sa=D&ust=1588773325679000)), SDAM project, vojtech.kase@gmail.com
-* [Name], [ORCID], [Institution], [email]
-* [Name], [ORCID], [Institution], [email]
-* [Name], [ORCID], [Institution], [email]
+* Petra Heřmánková, [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-6349-0540), SDAM project, petra@ancientsocialcomplexity.org
 
 ## License
 CC-BY-SA 4.0, see attached License.md
@@ -32,17 +31,11 @@ CC-BY-SA 4.0, see attached License.md
 Anything else on data metadata and data used. Link to data repository or explanatory article. 
 
 ### Software
-1. Software X, minimum version 123
-1. Software Y, version 456
+1. Python3
+1. Jupyter Notebooks or Google Colab
 
 ### Registered account
-1. CompanyA
-1. CompanyB
-
-### Hardware
-1. Multiple-screen
-1. Mouse
-1. Coffee
+1. Google Colab
 
 ---
 ## Installation
