@@ -52,7 +52,7 @@ CC-BY-SA 4.0, see attached License.md
 
 ## Screenshots
 ![Example of the Trapezoidal distribution](https://github.com/sdam-au/modelling_temporal_uncertainty/blob/master/screenshots/Trapezoidal_distribution.png)
-
+Example of the Trapezoidal distribution
 
 
 
