@@ -6,11 +6,12 @@
 
 ## Purpose
 This repo collects all scripts and models useful for dealing with temporal uncertainty in historical & archaeological datasets.
+It contains models for the uniform, normal, and trapezoidal distribution of temporal datasets, and their combinations.
 
 ---
 ## Authors
 * Vojtěch Kaše [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)]([0000-0002-6601-1605](https://www.google.com/url?q=http://orcid.org/0000-0002-6601-1605&sa=D&ust=1588773325679000)), SDAM project, vojtech.kase@gmail.com
-* Petra Heřmánková, [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-6349-0540), SDAM project, petra@ancientsocialcomplexity.org
+* Petra Heřmánková [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-6349-0540), SDAM project, petra@ancientsocialcomplexity.org
 
 ## License
 CC-BY-SA 4.0, see attached License.md
@@ -28,7 +29,7 @@ CC-BY-SA 4.0, see attached License.md
 [Describe the provenance of data used in the scripts contained and clarify how it is harvested and what other prerequisites are required to get the scripts working. In case of pure tool attribute any reused scripts to source, etc., license and specify any prerequisites or technical requirements.]
 
 ### Data
-Anything else on data metadata and data used. Link to data repository or explanatory article. 
+[Anything else on data metadata and data used. Link to data repository or explanatory article.] 
 
 ### Software
 1. Python3
@@ -44,13 +45,14 @@ Anything else on data metadata and data used. Link to data repository or explana
 ---
 ## Instructions 
 [Describe first steps, how to use the current repository by a typical user - the digital historian with limited technical skills]
-1. First, do ...
-1. Second, do ...
-1. Third, go to ...
+1. First, clone this repository to your local machine.
+1. Second, go to the folder `scripts/Python` and open the selected script (in Jupyter Notebooks or in Google Colab)
+1. You are now set to go!
 
 
 ## Screenshots
 ![Example screenshot](./img/screenshot.png)
+TBA
 
 
 
