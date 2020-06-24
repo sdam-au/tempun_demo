@@ -29,7 +29,11 @@ CC-BY-SA 4.0, see attached License.md
 [Describe the provenance of data used in the scripts contained and clarify how it is harvested and what other prerequisites are required to get the scripts working. In case of pure tool attribute any reused scripts to source, etc., license and specify any prerequisites or technical requirements.]
 
 ### Data
-[Anything else on data metadata and data used. Link to data repository or explanatory article.] 
+The scripts in this repository should work with all historical data with dates expressed as numerical intervals. 
+
+For instance, it might be a table with two columns: `not_before` and `not_after`.
+
+ 
 
 ### Software
 1. Python3
@@ -44,7 +48,57 @@ CC-BY-SA 4.0, see attached License.md
 
 ---
 ## Instructions 
-[Describe first steps, how to use the current repository by a typical user - the digital historian with limited technical skills]
+A minimal usage is just to execute the main script in your python environment, being it either local or cloud based.
+
+```python
+# (1) import requests & scipy (or: first install them with pip)
+>>> import requests
+>>> import scipy
+# (2) path to the script
+>>> url = "https://raw.githubusercontent.com/sdam-au/modelling_temporal_uncertainty/master/scripts/modelling_distributions.py"
+# (3) make a request to this path
+>>> resp = requests.get(url)
+# (4) execute the script
+>>> exec(resp.content)
+```
+
+Now you have access to the main function, `model_date()`. This function requires at least to parameters:
+
+* `start`
+* `stop`
+
+If both `start` and `stop` are numbers, model_date(start, stop) returns a random number within the range starting with `start` and ending with `stop`.
+
+If `stop` is not a valid number or contains an empty value, `start` is interpreted as defining a NOT BEFORE date (the so called ante quem*)
+
+If `start` is not a valid number or contains an empty value, `stop` is interpreted as defining a NOT AFTER date (the so called *post quem*)
+
+If `start` and `stop` are identical, the function returns the same number as well.
+
+There are three optional parameters:
+
+* `size=1`: how many random numbers you want to get; by default, size=1, i.e. only one number is returned
+* `b`: bending point *b* defining shape of the trapezoidal distribution; by default, *b*=0.1; set to 0 to get uniform distribution
+* `scale`:  scale of the half-uniform distribution used to model ante quem and post quem; by default scale=25
+
+The function returns an individual number (if size=1; i.e. by default) or a list of numbers of length equal to size
+
+```python
+# example 1: only start and stop
+>>> model_date(-340, -330)
+-337
+# example 2: size specified (returns a list of numbers of given size
+>>> model_date(-340, -330, 10)
+[-334, -333, -332, -336, -332, -338, -333, -336, -333, -331]
+# example 3: model post quem (with default scale)
+>>> model_date(114, "", 10)
+[123, 143, 123, 149, 123, 155, 125, 115, 128, 132]
+```
+
+
+
+To use the rest of the repo:
+
 1. First, clone this repository to your local machine.
 1. Second, go to the folder `scripts/Python` and open the selected script (in Jupyter Notebooks or in Google Colab)
 1. You are now set to go!
