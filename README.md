@@ -26,12 +26,8 @@ CC-BY-SA 4.0, see attached License.md
 # How to use this repository
 
 ## Sources and prerequisites
-[Describe the provenance of data used in the scripts contained and clarify how it is harvested and what other prerequisites are required to get the scripts working. In case of pure tool attribute any reused scripts to source, etc., license and specify any prerequisites or technical requirements.]
-
 ### Data
-The scripts in this repository should work with all historical data with dates expressed as numerical intervals. 
-
-For instance, it might be a table with two columns: `not_before` and `not_after`.
+The scripts in this repository should work with all historical data with dates expressed as numerical intervals. For instance, it might be a table with two columns: `not_before` and `not_after`.
 
  
 
