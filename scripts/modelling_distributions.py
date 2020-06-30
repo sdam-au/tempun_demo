@@ -34,6 +34,9 @@ def dist_ante_post(date, date_type, size=1, scale=25): # this function has been 
 
 
 def model_date(start, stop, size=1, scale=25, b=0.1):
+    """
+    combine dist_range() and dist_ante_post()
+    """
     try:
       randoms = dist_range(int(start), int(stop), size=size, b=b)
     except:
@@ -74,7 +77,7 @@ def dates_per_block(list_of_dates, time_blocks):
   dates_per_block = []
   dates_array = np.array(list_of_dates)
   for tup in time_blocks:
-     dates_per_block.append((tup, len(dates_array[(dates_array > tup[0]) & (dates_array < tup[1])])))
+     dates_per_block.append((tup, len(dates_array[(dates_array >= tup[0]) & (dates_array < tup[1])])))
   return dates_per_block
 
 def timeblocks_from_randoms(dataframe, column, min_max_step):
