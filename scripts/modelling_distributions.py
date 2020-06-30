@@ -38,10 +38,10 @@ def model_date(start, stop, size=1, scale=25, b=0.1):
       randoms = dist_range(int(start), int(stop), size=size, b=b)
     except:
       try:
-        randoms =  dist_ante_post(start, "post", size=size, scale=scale)
+        randoms =  dist_ante_post(int(start), "post", size=size, scale=scale)
       except:
         try:
-          randoms =  dist_ante_post(stop, "ante", size=size, scale=scale)
+          randoms =  dist_ante_post(int(stop), "ante", size=size, scale=scale)
         except:
           randoms = None
     return randoms
