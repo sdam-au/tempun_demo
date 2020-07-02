@@ -5,13 +5,22 @@ def dist_range(start, stop, size=1, b=0.1): # this function has been implemented
   """
   get random numbers of size size ib on the basis of start date and end date and trapezoid distribution defined by first turn point (lower bound)
   """
-  r = trapz.rvs(b, 1-b, size=size)
-  duration = abs((start)-stop)
+  duration = abs(start-stop)
   if duration == 0:
     random_values = [start] * size
     return random_values
   else:
-    random_values = list(((r * duration) + start).round().astype(int))
+    r = trapz.rvs(b, 1-b, size=size)
+    if 0 in range(start, stop):
+      random_values_with_0 = list(np.round((r * (duration - 1)) + start).astype(int))
+      random_values = []
+      for value in random_values_with_0:
+        if value < 0:
+          random_values.append(value)
+        else:
+          random_values.append(value + 1)
+    else:
+      random_values = list(np.round((r * duration) + start).astype(int))
     if size == 1: # if only one number, return it as a number
       return random_values[0]
     else: # otherwise return a list of values
@@ -77,7 +86,7 @@ def dates_per_block(list_of_dates, time_blocks):
   dates_per_block = []
   dates_array = np.array(list_of_dates)
   for tup in time_blocks:
-     dates_per_block.append(((tup[0], tup[1]-1), len(dates_array[(dates_array >= tup[0]) & (dates_array < tup[1])])))
+     dates_per_block.append(((tup[0], tup[1]-1), len(dates_array[(dates_array >= tup[0]) & (dates_array <= tup[1])])))
   return dates_per_block
 
 def timeblocks_from_randoms(dataframe, column, min_max_step):
@@ -87,8 +96,14 @@ def timeblocks_from_randoms(dataframe, column, min_max_step):
   simulations_list = get_simulation_variants(dataframe, column)
   sim_tup_lists = []
   time_blocks =[(n, n+min_max_step[2]) for n in range(min_max_step[0], min_max_step[1], min_max_step[2])]
+  time_blocks_cleaned = []
+  for tup in time_blocks:
+    if tup[0]<0:
+      time_blocks_cleaned.append((tup[0], tup[1]-1))
+    else:
+      time_blocks_cleaned.append((tup[0] + 1, tup[1]))
   for sim_list in simulations_list:
-    sim_tup_list = dates_per_block(sim_list, time_blocks)
+    sim_tup_list = dates_per_block(sim_list, time_blocks_cleaned)
     sim_tup_lists.append(sim_tup_list)
   return sim_tup_lists
 
