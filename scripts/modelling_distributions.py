@@ -86,7 +86,7 @@ def dates_per_block(list_of_dates, time_blocks):
   dates_per_block = []
   dates_array = np.array(list_of_dates)
   for tup in time_blocks:
-     dates_per_block.append(((tup[0], tup[1]-1), len(dates_array[(dates_array >= tup[0]) & (dates_array <= tup[1])])))
+     dates_per_block.append((tup, len(dates_array[(dates_array >= tup[0]) & (dates_array <= tup[1])])))
   return dates_per_block
 
 def timeblocks_from_randoms(dataframe, column, min_max_step):
@@ -95,15 +95,15 @@ def timeblocks_from_randoms(dataframe, column, min_max_step):
   """
   simulations_list = get_simulation_variants(dataframe, column)
   sim_tup_lists = []
-  time_blocks =[(n, n+min_max_step[2]) for n in range(min_max_step[0], min_max_step[1], min_max_step[2])]
-  time_blocks_cleaned = []
-  for tup in time_blocks:
+  time_blocks_raw =[(n, n+min_max_step[2]) for n in range(min_max_step[0], min_max_step[1], min_max_step[2])]
+  time_blocks = []
+  for tup in time_blocks_raw:
     if tup[0]<0:
-      time_blocks_cleaned.append((tup[0], tup[1]-1))
+      time_blocks.append((tup[0], tup[1]-1))
     else:
-      time_blocks_cleaned.append((tup[0] + 1, tup[1]))
+      time_blocks.append((tup[0] + 1, tup[1]))
   for sim_list in simulations_list:
-    sim_tup_list = dates_per_block(sim_list, time_blocks_cleaned)
+    sim_tup_list = dates_per_block(sim_list, time_blocks)
     sim_tup_lists.append(sim_tup_list)
   return sim_tup_lists
 
