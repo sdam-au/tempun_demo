@@ -36,6 +36,14 @@ def dist_ante_post(date, date_type, size=1, scale=25): # this function has been 
   if "ante" in date_type:
     r = halfnorm.rvs(scale=scale, size=size)
     random_values =  list((date - r).astype(int))
+  if 0 in random_values:
+     random_values_without_0 = []
+     for value in random_values:
+        if value < 0:
+          random_values_without_0.append(value)
+        else:
+          random_values_without_0.append(value + 1)
+     random_values = random_values_without_0
   if size == 1:
     return random_values[0]
   else:
