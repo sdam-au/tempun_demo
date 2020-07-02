@@ -77,7 +77,7 @@ def dates_per_block(list_of_dates, time_blocks):
   dates_per_block = []
   dates_array = np.array(list_of_dates)
   for tup in time_blocks:
-     dates_per_block.append((tup, len(dates_array[(dates_array >= tup[0]) & (dates_array < tup[1])])))
+     dates_per_block.append(((tup[0], tup[1]-1), len(dates_array[(dates_array >= tup[0]) & (dates_array < tup[1])])))
   return dates_per_block
 
 def timeblocks_from_randoms(dataframe, column, min_max_step):
