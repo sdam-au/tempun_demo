@@ -115,11 +115,14 @@ def timeblocks_from_randoms(dataframe, column, min_max_step):
     sim_tup_lists.append(sim_tup_list)
   return sim_tup_lists
 
-def plot_timeblocks_data(list_of_timeblocks_data):
+def plot_timeblocks_data(list_of_timeblocks_data, ax=None):
   """
   plot timeblocks data as a series of overlapping line plots 
   """
   for timeblocks in list_of_timeblocks_data:
     x = [np.mean(tuptup[0]) for tuptup in timeblocks]
     y = [tuptup[1] for tuptup in timeblocks]
-    plt.plot(x, y)
+    if ax != None:
+      ax.plot(x, y)
+    else:
+      plt.plot(x, y)
