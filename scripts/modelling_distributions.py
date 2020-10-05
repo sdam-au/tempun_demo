@@ -108,7 +108,7 @@ def timeblocks_from_randoms(dataframe, column, min_max_step):
     sim_tup_lists.append(sim_tup_list)
   return sim_tup_lists
 
-def plot_timeblocks_data(list_of_timeblocks_data, ax=None):
+def plot_timeblocks_data(list_of_timeblocks_data, ax=None, color=None):
   """
   plot timeblocks data as a series of overlapping line plots 
   """
@@ -116,9 +116,15 @@ def plot_timeblocks_data(list_of_timeblocks_data, ax=None):
     x = [np.mean(tuptup[0]) for tuptup in timeblocks]
     y = [tuptup[1] for tuptup in timeblocks]
     if ax != None:
-      ax.plot(x, y)
+        if color != None:
+            ax.plot(x, y, color=color)
+        else: 
+            ax.plot(x, y)
     else:
-      plt.plot(x, y)
+        if color != None:
+            plt.plot(x, y, color=color)
+        else: 
+            plt.plot(x, y)
 
 def get_aoristic(startdate, enddate, timeblocks_tuples):
     aoristic_probs = {}
