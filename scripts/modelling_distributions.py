@@ -112,19 +112,22 @@ def plot_timeblocks_data(list_of_timeblocks_data, ax=None, color=None):
   """
   plot timeblocks data as a series of overlapping line plots 
   """
+  layers = []
   for timeblocks in list_of_timeblocks_data:
     x = [np.mean(tuptup[0]) for tuptup in timeblocks]
     y = [tuptup[1] for tuptup in timeblocks]
     if ax != None:
         if color != None:
-            ax.plot(x, y, color=color)
+            layer = ax.plot(x, y, color=color)
         else: 
-            ax.plot(x, y)
+            layer = ax.plot(x, y)
     else:
         if color != None:
-            plt.plot(x, y, color=color)
+            layer = plt.plot(x, y, color=color)
         else: 
-            plt.plot(x, y)
+            layer = plt.plot(x, y)
+    layers.append(layer)
+  return layers
 
 def get_aoristic(startdate, enddate, timeblocks_tuples):
     aoristic_probs = {}
