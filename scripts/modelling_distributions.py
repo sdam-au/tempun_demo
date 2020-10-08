@@ -79,6 +79,16 @@ def get_simulation_variants(dataframe, column):
     return simulations_list
 
 
+def get_timeblocks(start, stop, step):
+    time_blocks_raw =[(n, n+step) for n in range(start, stop, step)]
+    time_blocks = []
+    for tup in time_blocks_raw:
+        if tup[0]<0:
+            time_blocks.append((tup[0], tup[1]-1))
+        else:
+            time_blocks.append((tup[0] + 1, tup[1]))
+    return time_blocks
+
 def dates_per_block(list_of_dates, time_blocks):
   """
   count number of dates from a simulation within prespecified time blocks
@@ -133,11 +143,11 @@ def get_aoristic(startdate, enddate, timeblocks_tuples):
     aoristic_probs = {}
     try:
         startdate, enddate = int(startdate), int(enddate)
-        ind_year_prob = np.round(1 / len([n for n in range(startdate, enddate)]), 5)
+        ind_year_prob = np.round(1 / len([n for n in range(startdate, enddate + 1)]), 5)
         for timeblock in timeblocks_tuples:
-            possibledates = [n for n in range(startdate, enddate)]
-            timeblock_range = [n for n in range(timeblock[0], timeblock[1])]
-            aoristic_probs[timeblock] = len(set(possibledates) & set(timeblock_range)) * ind_year_prob
+            possibledates = [n for n in range(startdate, enddate + 1)]
+            timeblock_range = [n for n in range(timeblock[0], timeblock[1] + 1)]
+            aoristic_probs[timeblock] = np.round(len(set(possibledates) & set(timeblock_range)) * ind_year_prob, 5)
     except:
         for timeblock in timeblocks_tuples:
             aoristic_probs[timeblock] = 0
@@ -147,5 +157,5 @@ def get_aoristic(startdate, enddate, timeblocks_tuples):
 def get_aoristic_sum(prob_dicts_list, timeblocks_tuples):
     aoristic_sum = {}
     for timeblock in timeblocks_tuples:
-        aoristic_sum[timeblock] =  sum([probs[timeblock] for probs in prob_dicts_list])
+        aoristic_sum[timeblock] =  np.round(sum([probs[timeblock] for probs in prob_dicts_list]), 5)
     return aoristic_sum
