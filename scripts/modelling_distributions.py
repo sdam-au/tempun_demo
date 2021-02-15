@@ -123,7 +123,7 @@ def timeblocks_from_randoms(dataframe, column, min_max_step):
 def get_min_max_conf(sim_data, conf_int):
     min_max_conf = []
     for tb_n in range(len(sim_data[0])):
-        tb_all_results = [sim[tb_n][1] for sim in sim_data]
+        tb_all_results = [sim_data[tb_n][1] for sim in sim_data]
         tb_all_results = sorted(tb_all_results)
         conf_int_d = (100 - conf_int) / 2 / 100
         conf_index = int(conf_int_d * len(sim_data))
