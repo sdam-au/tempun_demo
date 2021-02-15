@@ -118,7 +118,35 @@ def timeblocks_from_randoms(dataframe, column, min_max_step):
     sim_tup_lists.append(sim_tup_list)
   return sim_tup_lists
 
-def plot_timeblocks_data(list_of_timeblocks_data, ax=None, color=None):
+### PLOTTING TIMEBLOCKS DATA
+
+def get_min_max_conf(sim_data, conf_int):
+    min_max_conf = []
+    for tb_n in range(len(sim_data[0])):
+        tb_all_results = [sim[tb_n][1] for sim in sim_data]
+        tb_all_results = sorted(tb_all_results)
+        conf_int_d = (100 - conf_int) / 2 / 100
+        conf_index = int(conf_int_d * len(sim_data))
+        min_max_conf.append([tb_all_results[0], tb_all_results[-1], tb_all_results[conf_index], tb_all_results[-conf_index]])
+    ys_min = [el[0] for el in min_max_conf]
+    ys_max = [el[1] for el in min_max_conf]
+    ys_conf_min = [el[2] for el in min_max_conf]
+    ys_conf_max = [el[3] for el in min_max_conf]
+    xs = [np.mean(el[0]) for el in sim_data[0]]
+    return [xs, ys_min, ys_max, ys_conf_min, ys_conf_max]
+
+def plot_timeblocks_data(sim_data, ax=None, color="black"):
+    """
+    plot timeblocks data with confidence intervals 
+    """
+    plot_data = get_min_max_conf(sim_data, 90)
+    layers = []
+    x = plot_data[0]
+    layers.append(ax.fill(x + x[::-1], plot_data[1] +  plot_data[2][::-1], color="gray"))
+    layers.append(ax.fill(x + x[::-1], plot_data[3] +  plot_data[4][::-1], color=color))
+    return layers
+
+def plot_timeblocks_data_lines(list_of_timeblocks_data, ax=None, color=None):
   """
   plot timeblocks data as a series of overlapping line plots 
   """
@@ -139,11 +167,14 @@ def plot_timeblocks_data(list_of_timeblocks_data, ax=None, color=None):
     layers.append(layer)
   return layers
 
+### AORISTIC ANALYSIS
+
 def get_aoristic(startdate, enddate, timeblocks_tuples):
+    """calculate aorisitc probabilities for individual observation"""
     aoristic_probs = {}
     try:
         startdate, enddate = int(startdate), int(enddate)
-        ind_year_prob = np.round(1 / len([n for n in range(startdate, enddate + 1)]), 5)
+        ind_year_prob = np.round(1 / len([n for n in range(startdate, enddate + 1)]), 5) # probability for each individual year
         for timeblock in timeblocks_tuples:
             possibledates = [n for n in range(startdate, enddate + 1)]
             timeblock_range = [n for n in range(timeblock[0], timeblock[1] + 1)]
@@ -155,7 +186,43 @@ def get_aoristic(startdate, enddate, timeblocks_tuples):
 
 
 def get_aoristic_sum(prob_dicts_list, timeblocks_tuples):
+    """summarize aoristic data for individual observations"""
     aoristic_sum = {}
     for timeblock in timeblocks_tuples:
         aoristic_sum[timeblock] =  np.round(sum([probs[timeblock] for probs in prob_dicts_list]), 5)
     return aoristic_sum
+
+### SIM BY FUNTION
+
+def get_date_from_randoms(value, n):
+    """extract individual date on the basis of index
+    (used in sim_data_by_function)"""
+    try:
+        return value[n]
+    except:
+        return None
+
+def sim_data_by_function(df, n_sims, timeblocks, function, *args, random_dates_column="random_dates"):
+    """
+    retrieve simulation variants from random dates
+    params:
+        df : dataframe containing column with random dates (by default, named "random_dates")
+        n_sims : number of simulation to produce (lower than- or equeal to the length "random_dates" array)
+        timeblocks : list or tuple specifying startdate, enddate and steps of the timeblocks (e.g. "[-200, 600, 100]")
+        function : any function taking a dataframe as its first and main input, using it for some computation (e.g. total number of words in certain column), and returning a numerical output
+        *args : additional arguments to be used by the function
+        random_dates_column : column containing the preassigned random dates 
+    returns:
+        list of simulation data of `n_sims` length
+    """
+    complete_sim_data = []
+    for n in range(n_sims):
+        sim = df[random_dates_column].apply(lambda x: get_date_from_randoms(x, n))
+        sim_data = []
+        for tb in get_timeblocks(timeblocks[0], timeblocks[1], timeblocks[2]):
+            mask = sim.between(tb[0], tb[1])
+            df_tb = df[mask]
+            function_output = function(df_tb, *args)
+            sim_data.append((tb, function_output))
+        complete_sim_data.append(sim_data)
+    return complete_sim_data
