@@ -61,7 +61,7 @@ def model_date(start, stop, size=1, scale=25, b=0):
 
 
 
-def get_simulation_variants(dataframe, column):
+def get_simulation_variants(dataframe, column, random_size=100):
     """
     combine random dates associated with individual observations
     into a list of simulations
@@ -69,10 +69,11 @@ def get_simulation_variants(dataframe, column):
     """
     random_dates_list = dataframe[column].tolist()
     simulations_list = []
-    if isinstance(random_dates_list[0], list):
-        random_size = len(random_dates_list[0])
-    else:
-        random_size = len(random_dates_list[1])
+    if random_size==None:
+        if isinstance(random_dates_list[0], list):
+            random_size = len(random_dates_list[0])
+        else:
+            random_size = len(random_dates_list[1])
     for n in range(random_size):
         simulation = [random_dates[n] for random_dates in random_dates_list if isinstance(random_dates, list)]
         simulations_list.append(simulation)
@@ -100,11 +101,11 @@ def dates_per_block(list_of_dates, time_blocks):
      dates_per_block.append((tup, len(dates_array[(dates_array >= tup[0]) & (dates_array <= tup[1])])))
   return dates_per_block
 
-def timeblocks_from_randoms(dataframe, column, min_max_step):
+def timeblocks_from_randoms(dataframe, column, min_max_step, random_size=100):
   """
   combine get_simulation_variants() and dates_per_block() into one functions
   """
-  simulations_list = get_simulation_variants(dataframe, column)
+  simulations_list = get_simulation_variants(dataframe, column, random_size)
   sim_tup_lists = []
   time_blocks_raw =[(n, n+min_max_step[2]) for n in range(min_max_step[0], min_max_step[1], min_max_step[2])]
   time_blocks = []
