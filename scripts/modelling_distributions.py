@@ -140,6 +140,8 @@ def plot_timeblocks_data(sim_data, ax=None, color="black"):
     """
     plot timeblocks data with confidence intervals 
     """
+    if ax == None:
+        fig, ax = plt.subplots()
     plot_data = get_min_max_conf(sim_data, 90)
     layers = []
     x = plot_data[0]
