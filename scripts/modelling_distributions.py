@@ -136,7 +136,7 @@ def get_min_max_conf(sim_data, conf_int):
     xs = [np.mean(el[0]) for el in sim_data[0]]
     return [xs, ys_min, ys_max, ys_conf_min, ys_conf_max]
 
-def plot_timeblocks_data(sim_data, ax=None, color="black"):
+def plot_timeblocks_data(sim_data, ax=None, color="black", **kwargs):
     """
     plot timeblocks data with confidence intervals 
     """
@@ -145,8 +145,8 @@ def plot_timeblocks_data(sim_data, ax=None, color="black"):
     plot_data = get_min_max_conf(sim_data, 90)
     layers = []
     x = plot_data[0]
-    layers.append(ax.fill(x + x[::-1], plot_data[1] +  plot_data[2][::-1], color="gray"))
-    layers.append(ax.fill(x + x[::-1], plot_data[3] +  plot_data[4][::-1], color=color))
+    layers.append(ax.fill(x + x[::-1], plot_data[1] +  plot_data[2][::-1], color="gray", alpha=0.5))
+    layers.append(ax.fill(x + x[::-1], plot_data[3] +  plot_data[4][::-1], color=color, **kwargs))
     return layers
 
 def plot_timeblocks_data_lines(list_of_timeblocks_data, ax=None, color=None):
