@@ -107,7 +107,7 @@ def timeblocks_from_randoms(dataframe, column, time_blocks, random_size=100):
   """
   simulations_list = get_simulation_variants(dataframe, column, random_size)
   sim_tup_lists = []
-  if not time_blocks[0].isinstance(int): # if first entry of timeblocks is not an integer (what indicates, that the input is a list of predefined timevlocks:
+  if not isinstance(time_blocks[0], int): # if first entry of timeblocks is not an integer (what indicates, that the input is a list of predefined timevlocks:
       time_blocks = get_timeblocks(time_blocks[0], time_blocks[1], time_blocks[2])
   for sim_list in simulations_list:
     sim_tup_list = dates_per_block(sim_list, time_blocks)
@@ -217,7 +217,7 @@ def sim_data_by_function(df, n_sims, time_blocks, function, *args, random_dates_
     for n in range(n_sims):
         sim = df[random_dates_column].apply(lambda x: get_date_from_randoms(x, n))
         sim_data = []
-        if not time_blocks[0].isinstance(int): # if first entry of timeblocks is not an integer (what indicates, that the input is a list of predefined timevlocks:
+        if not isinstance(time_blocks[0], int): # if first entry of timeblocks is not an integer (what indicates, that the input is a list of predefined timevlocks:
             time_blocks = get_timeblocks(time_blocks[0], time_blocks[1], time_blocks[2])
         for tb in time_blocks:
             mask = sim.between(tb[0], tb[1])
