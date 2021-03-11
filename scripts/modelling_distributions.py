@@ -101,19 +101,14 @@ def dates_per_block(list_of_dates, time_blocks):
      dates_per_block.append((tup, len(dates_array[(dates_array >= tup[0]) & (dates_array <= tup[1])])))
   return dates_per_block
 
-def timeblocks_from_randoms(dataframe, column, min_max_step, random_size=100):
+def timeblocks_from_randoms(dataframe, column, time_blocks, random_size=100):
   """
   combine get_simulation_variants() and dates_per_block() into one functions
   """
   simulations_list = get_simulation_variants(dataframe, column, random_size)
   sim_tup_lists = []
-  time_blocks_raw =[(n, n+min_max_step[2]) for n in range(min_max_step[0], min_max_step[1], min_max_step[2])]
-  time_blocks = []
-  for tup in time_blocks_raw:
-    if tup[0]<0:
-      time_blocks.append((tup[0], tup[1]-1))
-    else:
-      time_blocks.append((tup[0] + 1, tup[1]))
+  if not time_blocks[0].isinstance(int): # if first entry of timeblocks is not an integer (what indicates, that the input is a list of predefined timevlocks:
+      time_blocks = get_timeblocks(time_blocks[0], time_blocks[1], time_blocks[2])
   for sim_list in simulations_list:
     sim_tup_list = dates_per_block(sim_list, time_blocks)
     sim_tup_lists.append(sim_tup_list)
@@ -205,7 +200,7 @@ def get_date_from_randoms(value, n):
     except:
         return None
 
-def sim_data_by_function(df, n_sims, timeblocks, function, *args, random_dates_column="random_dates"):
+def sim_data_by_function(df, n_sims, time_blocks, function, *args, random_dates_column="random_dates"):
     """
     retrieve simulation variants from random dates
     params:
@@ -222,7 +217,9 @@ def sim_data_by_function(df, n_sims, timeblocks, function, *args, random_dates_c
     for n in range(n_sims):
         sim = df[random_dates_column].apply(lambda x: get_date_from_randoms(x, n))
         sim_data = []
-        for tb in get_timeblocks(timeblocks[0], timeblocks[1], timeblocks[2]):
+        if not time_blocks[0].isinstance(int): # if first entry of timeblocks is not an integer (what indicates, that the input is a list of predefined timevlocks:
+            time_blocks = get_timeblocks(time_blocks[0], time_blocks[1], time_blocks[2])
+        for tb in time_blocks:
             mask = sim.between(tb[0], tb[1])
             df_tb = df[mask]
             function_output = function(df_tb, *args)
