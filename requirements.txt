@@ -1,9 +1,4 @@
-beautifulsoup4
-requests
-scipy
+geopandas
 matplotlib
-seaborn
-numpy
-pandas
+tempun
 
-sddk
