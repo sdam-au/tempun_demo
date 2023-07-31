@@ -1,5 +1,4 @@
 # Modelling Temporal Uncertainty in Historical Datasets
-* ANALYSIS
 
 ## Purpose
 This reposotory serves as a suplementary material for an article demonstrating the potential of a Monte Carlo approach to model temporal uncertainty in historical datasets.
